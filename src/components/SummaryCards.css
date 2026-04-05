@@ -1,0 +1,72 @@
+.summary-cards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    align-items: stretch;
+}
+
+.card {
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+    padding: 14px 16px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(14, 30, 37, 0.06);
+    flex: 1;
+    min-height: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-title {
+    font-size: 13px;
+    color: #7a7a7a;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin: 0;
+}
+
+.card-value {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.card-value.positive {
+    color: #0a8f5a;
+}
+
+.card-value.negative {
+    color: #d64545;
+}
+
+.card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #f6fbf8, #eef9f1);
+    color: #0a8f5a;
+}
+
+.card-icon.income {
+    background: linear-gradient(180deg, #f0fbf8, #e6fbf0);
+    color: #0a8f5a;
+}
+
+.card-icon.expenses {
+    background: linear-gradient(180deg, #fff5f5, #ffecee);
+    color: #d64545;
+}
+
+.card-icon.balance {
+    background: linear-gradient(180deg, #f3f7ff, #eef3ff);
+    color: #3756c3;
+}

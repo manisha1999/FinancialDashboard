@@ -1,38 +1,725 @@
 .App {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, system-ui;
+  color: #17202a;
+  background: #f6f8fa;
+  min-height: 100vh;
+}
+
+/* Dark mode overrides (applied when <html> has class "dark") */
+.dark .App {
+  background: #0e1114;
+  color: #e6eef3;
+}
+.dark .card,
+.dark .transactions,
+.dark .modal,
+.dark .single-view,
+.dark .sidebar {
+  background: #111417;
+  color: #e6eef3;
+  box-shadow: none;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+.dark .card .card-title,
+.dark .card-value,
+.dark .pie-name,
+.dark .pie-value,
+.dark .nav-label,
+.dark .tx-table th,
+.dark .tx-table td,
+.dark .modal h3 {
+  color: #dbe9ef;
+}
+.dark .transactions input,
+.dark .transactions select,
+.dark .modal form input,
+.dark .modal form select {
+  background: #0b0d0f;
+  color: #e6eef3;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.dark .tx-table tbody tr:hover {
+  background: rgba(255,255,255,0.02);
+}
+.dark .sidebar .brand {
+  color: #9be6b6;
+}
+.dark .btn {
+  background: #1f9a69;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+}
+
+/* reset page margins so full-screen layout fits exactly */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0 20px 0;
+  gap: 12px;
+}
+
+.dashboard {
+
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.dashboard.layout {
+  padding-left: 0;
+  padding-right: 24px;
+}
+
+.summary-cards {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+  align-items: stretch;
+}
+
+.card {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+  padding: 14px 16px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(14, 30, 37, 0.06);
+  flex: 1;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-title {
+  font-size: 13px;
+  color: #7a7a7a;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.card-value {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.card-value.positive {
+  color: #0a8f5a;
+}
+
+.card-value.negative {
+  color: #d64545;
+}
+
+/* Summary card head and icons */
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f6fbf8, #eef9f1);
+  color: #0a8f5a;
+}
+
+.card-icon.income {
+  background: linear-gradient(180deg, #f0fbf8, #e6fbf0);
+  color: #0a8f5a;
+}
+
+.card-icon.expenses {
+  background: linear-gradient(180deg, #fff5f5, #ffecee);
+  color: #d64545;
+}
+
+.card-icon.balance {
+  background: linear-gradient(180deg, #f3f7ff, #eef3ff);
+  color: #3756c3;
+}
+
+.card-title {
+  margin: 0;
+}
+
+.main-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  grid-auto-rows: 1fr;
+}
+
+/* make direct grid children stretch and stack their content */
+.main-grid>* {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.insights .chart {
+  margin-bottom: 12px;
+}
+
+.chart.card {
+  padding: 16px;
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+/* ensure card title area aligns consistently */
+.card .card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Ensure Recharts responsive container fills the card and can shrink correctly */
+.chart.card .recharts-responsive-container {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.chart.card .recharts-wrapper {
+  height: 100% !important;
+}
+
+.transactions {
+  background: #fff;
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(14, 30, 37, 0.04);
+}
+
+.transactions-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+/* Ensure header sections align their controls and buttons */
+.transactions-header > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Make form controls same height for visual alignment */
+.transactions-header input[type="date"],
+.transactions-header input[type="text"],
+.transactions-header input,
+.transactions-header select,
+.transactions-header .action-btn,
+.transactions-header .btn {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Slight spacing fix for labels */
+.transactions-header label.small {
+  margin: 0 6px 0 8px;
+}
+
+.transactions input {
+  padding: 8px 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 6px;
+  min-width: 200px;
+}
+
+.transactions select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #e6e6e6;
+}
+
+.tx-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tx-table th,
+.tx-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f3f3f3;
+  text-align: left;
+}
+
+.tx-table th {
+  color: #616161;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.tx-table tbody tr:hover {
+  background: #fbfbfb;
+}
+
+.tx-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* action buttons in transactions */
+.action-btn {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.action-btn:hover {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+
+.action-btn.danger {
+  background: #fff;
+  border-color: #f2c6c6;
+  color: #c0392b;
+}
+
+.tx-table td .small {
+  display: inline-block;
+  padding: 6px 8px;
+}
+
+.role-switcher {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn {
+  background: #0a8f5a;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(10, 143, 90, 0.12);
+}
+
+@media (max-width: 900px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-cards {
+    flex-direction: column;
+  }
+}
+
+/* Sidebar layout */
+.layout {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 220px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(14, 30, 37, 0.06);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.sidebar .brand {
+  font-weight: 800;
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  color: #0a8f5a;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar .brand::before {
+  content: "\20B9";
+  /* rupee symbol */
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #e6fbf0, #dff7ef);
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.02);
+  color: #0a8f5a;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.nav-item {
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #2b3b3b;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 160ms ease;
+}
+
+.nav-item:hover {
+  background: rgba(10, 143, 90, 0.06);
+  color: #0a8f5a;
+}
+
+.nav-item.active {
+  background: linear-gradient(180deg, #0a8f5a, #088a56);
+  color: white;
+  box-shadow: 0 8px 18px rgba(10, 143, 90, 0.12);
+}
+
+.nav-item .nav-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 143, 90, 0.06);
+  border-radius: 6px;
+}
+
+.nav-item.active .nav-icon {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.nav-label {
+  font-size: 14px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 13px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.content {
+  flex: 1;
+  padding: 18px;
+  overflow: auto;
+}
+
+.single-view {
+  background: #fff;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(14, 30, 37, 0.04);
+}
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static;
+  }
+}
+
+/* small helpers */
+.muted {
+  color: #757575;
+}
+
+.center {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.small {
+  font-size: 12px;
+  color: #777;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Insights pie legend */
+.pie-legend {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 6px 8px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.pie-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.pie-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: #233;
+}
+
+.pie-value {
+  margin-left: 8px;
+  color: #667;
+  font-size: 13px;
+}
+
+/* small chart icon in titles */
+.chart-icon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-right: 8px;
+  color: #3756c3;
+}
+
+/* pie legend icon */
+.pie-icon {
+  font-size: 16px;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* Modal styles — polished */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(6, 12, 20, 0.55), rgba(6, 12, 20, 0.55));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 20px;
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  width: 520px;
+  max-width: 100%;
+  box-shadow: 0 30px 60px rgba(12, 24, 36, 0.25);
+  border: 1px solid rgba(10, 10, 10, 0.03);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.modal h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #12202a;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  color: #8b9aa3;
+}
+
+.modal {
+  box-sizing: border-box;
+}
+
+.modal * {
+  box-sizing: border-box;
+}
+
+.modal form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.modal form label {
+  display: block;
+  font-size: 13px;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.modal form input,
+.modal form select {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border-radius: 8px;
+  border: 1px solid #e6eef0;
+  background: #fbfdfe;
+  color: #0e2b33;
+}
+
+.modal form input:focus,
+.modal form select:focus {
+  outline: none;
+  box-shadow: 0 6px 16px rgba(10, 143, 90, 0.08);
+  border-color: #0a8f5a;
+}
+
+.modal .field-row {
+  display: flex;
+  gap: 10px;
+}
+
+.modal .field-row .col {
+  flex: 1;
+}
+
+.modal .small {
+  margin-top: 6px;
+  color: #667085;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal form label.full {
+  grid-column: 1 / -1;
+}
+
+.modal .field-row {
+  display: flex;
+  gap: 10px;
+}
+
+.modal .field-row .col {
+  flex: 1;
+  min-width: 0;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.modal .action-btn {
+  background: #fff;
+  border: 1px solid #e6eef0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal .btn {
+  background: #0a8f5a;
   color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+@media (min-width: 760px) {
+  .modal form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modal form label.full {
+    grid-column: 1 / -1;
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Icon helpers and adjusted action button styles (override earlier defaults) */
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  color: #2b6a49;
+}
+
+.nav-label {
+  margin-left: 6px;
+}
+
+.action-btn {
+  background: #fff;
+  border: 1px solid #e6eef0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px !important;
+}
+
+.action-btn svg {
+  color: #2b6a49;
+}
+
+.action-btn:hover {
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+
+.action-btn.danger {
+  background: #fff;
+  border-color: #f2c6c6;
+  color: #c0392b;
+}
+
+.action-btn.danger svg {
+  color: #c0392b;
 }

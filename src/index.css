@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Ensure the app fills the full viewport so min-height and sticky sidebar work */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}

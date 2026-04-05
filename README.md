@@ -1,4 +1,76 @@
-# Getting Started with Create React App
+# Financial Dashboard
+
+A small React-based personal finance dashboard built with Create React App and Recharts. It provides an overview of transactions, category breakdowns, monthly aggregates, simple analytics (top spending category, saving rate, average monthly expense), and transaction management with filtering, grouping and export.
+
+This repository is a workspace for a coding exercise / assignment and includes lightweight state persistence to localStorage.
+
+---
+
+## Features
+- Transactions list: add, edit, delete (admin role required for modifications)
+- Filters: search, date range, type (income/expense), sort
+- Grouping: aggregate transactions by category or month
+- Export: CSV and JSON export of filtered transactions
+- Charts: category pie chart and monthly income/expense trend (Recharts)
+- Insights: top spending category, saving rate, average monthly expense
+- Theme: light/dark toggle (persisted in localStorage)
+- Mobile-friendly sidebar with responsive layout
+
+## Quick start
+
+Requirements: Node.js (>=14), npm
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Run development server
+
+```bash
+npm start
+```
+
+3. Create production build
+
+```bash
+npm run build
+```
+
+4. Run tests
+
+```bash
+npm test
+```
+
+## Project structure (important files)
+- `src/` - React source code
+  - `components/` - UI components (Dashboard, Navbar, Transactions, Charts, etc.)
+  - `context/AppContext.js` - central app state, selectors, and persistence
+  - `utils/` - helper utilities (export, format)
+  - `data/mockData.js` - sample transaction seed data
+- `public/` - static html and manifest
+
+## Theme
+The app stores the selected theme in `localStorage.theme`. Changing the Theme select (top-right) toggles the `dark` class on the document root and applies the dark-mode CSS overrides.
+
+## Notes for developers
+- The app uses React functional components and hooks. State is provided using a single `AppContext` to keep the example compact.
+- Derived data (categories summary, monthly aggregates, totals) are memoized in `AppContext` to avoid recomputation across components.
+- Charts are implemented with `recharts` and are responsive.
+- Transactions are persisted to `localStorage` (debounced) so your changes survive reloads.
+
+## Removing or restoring mock/sample data
+- The app currently seeds transactions from `src/data/mockData.js` if no `localStorage.transactions` exists. To reset to the sample dataset, clear `localStorage.transactions` in your browser or remove it via the DevTools Application tab.
+
+## Contributing / customizations
+- To add or update categories, edit the mock data or the components that render category icons/labels.
+- Consider moving CSS to CSS modules or styled-components if you need stricter scoping.
+
+## License & contact
+This project is provided as-is for the assignment. Contact the author via the repository owner on GitHub for questions.
+# financialdashboard
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

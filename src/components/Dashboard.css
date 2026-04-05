@@ -1,0 +1,59 @@
+.layout {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.content {
+    flex: 1;
+    padding: 18px;
+    overflow: auto;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 12px 0 20px 0;
+    gap: 12px;
+}
+
+.main-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    grid-auto-rows: 1fr;
+}
+
+.main-grid>* {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.single-view {
+    background: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(14, 30, 37, 0.04);
+}
+
+@media (max-width: 900px) {
+    .layout {
+        flex-direction: column;
+    }
+
+    /* Stack the overview grid into a single column on small screens */
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Stack summary cards vertically on narrow screens */
+    .summary-cards {
+        flex-direction: column;
+    }
+}

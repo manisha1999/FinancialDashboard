@@ -1,0 +1,20 @@
+.chart.card {
+    padding: 16px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+.pie-icon {
+    font-size: 16px;
+    line-height: 1;
+    display: inline-block;
+}
+
+.pie-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
