@@ -9,9 +9,23 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianG
 // helper kept simple: we'll compute income/expense per-month inside the component
 
 export default function Insights() {
-  const { categoriesSummary, monthlyAggregates, totalIncome, totalExpenses } = useAppContext();
+  const { monthlyAggregates, totalIncome, totalExpenses, transactions } = useAppContext();
 
-  const highestCategory = (categoriesSummary && categoriesSummary[0]) || null;
+  // compute highest spending category from expenses only
+  const highestCategory = (() => {
+    if (!transactions || transactions.length === 0) return null;
+    const map = {};
+    transactions.forEach((t) => {
+      const amt = Number(t.amount) || 0;
+      const isExpense = t.type === 'expense' || amt < 0;
+      if (!isExpense) return;
+      const k = t.category || 'Misc';
+      map[k] = (map[k] || 0) + Math.abs(amt);
+    });
+    const arr = Object.keys(map).map((k) => ({ name: k, value: Math.round(map[k] * 100) / 100 }));
+    arr.sort((a, b) => b.value - a.value);
+    return arr[0] || null;
+  })();
 
   // use monthlyAggregates provided by context
   const incomeExpenseByMonth = monthlyAggregates || [];
